@@ -26,7 +26,7 @@ node {
         npm install
         npm run build
         sudo user -k 3000/tcp || true
-        npm run statrt
+        npm run start
     """
   }
 }
