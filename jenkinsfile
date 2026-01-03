@@ -1,0 +1,33 @@
+node {
+  def appDir = '/var/www/nextjs-app'
+
+  stage('Clean Workspace') {
+    echo 'Cleaning jenkins workspace...'
+    deleteDir()
+  }
+
+  stage('Clone Repository') {
+    echo 'Cloning the repository...'
+    git(
+      branch: 'main',
+      url: 'https://github.com/aslamaswed/nextjs-app-deploy-server-22-local'     
+    )
+  }
+
+
+  stage('Deploy to server-22-local') {
+    echo 'Deploying application to server-22-local...'
+    sh """
+        sudo mkdir -p ${appDir}
+        sudo chown -R jenkins:jenkins ${appDir}
+
+        rsync -av --delete --exclude='.git/' --exclude='node_modules/' ./ ${appDir}/
+
+        cd ${appDir}
+        npm install
+        npm run build
+        sudo user -k 3000/tcp || true
+        npm run statrt
+    """
+  }
+}
