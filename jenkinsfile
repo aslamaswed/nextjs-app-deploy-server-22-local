@@ -7,7 +7,7 @@ node {
   }
 
   stage('Clone Repository') {
-    echo 'Cloning the repository...'
+    echo 'Cloning the repository....'
     git(
       branch: 'main',
       url: 'https://github.com/aslamaswed/nextjs-app-deploy-server-22-local'     
